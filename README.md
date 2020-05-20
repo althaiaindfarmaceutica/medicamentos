@@ -6,7 +6,7 @@ Estamos muito felizes com seu interesse em trabalhar conosco, pois queremos cria
 
 Nesta etapa vamos avaliar suas habilidades em programação.
 
-Para começar faça um fork do repositório: Althaia | Equaliv - Medicamentos, com o fork criado inicie o desenvolvimento publicando o andamento do seu projeto, ao finalizar faça um pull-request para que possamos avaliar.
+Para começar faça um fork deste repositório [Althaia | Equaliv - Medicamentos](https://github.com/althaiaindfarmaceutica/medicamentos), com o fork criado inicie o desenvolvimento publicando o andamento do seu projeto, ao finalizar faça um pull-request para que possamos avaliar.
 
 O desafio será a criação de um formulário para o cadastro de medicamentos, com as seguintes informações:
 
