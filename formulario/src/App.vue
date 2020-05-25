@@ -97,7 +97,7 @@
 
 <script>
 
-//import {required, minLength} from 'vuelidate/lib/validators'
+import {required, minLength} from 'vuelidate/lib/validators'
 
 export default {
   data() {
@@ -110,6 +110,44 @@ export default {
       }
     }
   },
+
+validations: {
+  medicamentos: {
+    apresentacao: {
+      required: required,
+      minLength: minLength(6)
+    },
+    descricao: {
+     minLength: minLength(6)
+    },
+    principio: {
+      required: required,
+      minLength: minLength(6)
+    },
+    empresa: {
+      required:required,
+      minLength: minLength(6)
+    }
+  }
+},
+
+  methods: {
+    enviar() {
+      const formularioEnviado = Object.assign({}, this.medicamentos)
+      console.log('formulário enviado!', formularioEnviado);
+    },
+    resetar() {
+      this.medicamentos = Object.assign({}, '')
+    },
+
+    log() {
+      console.log('Vuelidate: ', this.$v)
+    }
+  },
+
+  created() {
+    this.resetar()
+  }
 
 
 }
