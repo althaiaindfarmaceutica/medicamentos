@@ -55,7 +55,7 @@
 
 
             <button class="btn btn-secondary" type="reset">Resetar</button>
-            <button class="btn btn-success" type="submit" >Enviar</button>
+            <button class="btn btn-success" type="submit" @click="log" >Enviar</button>
 
           </form>
 
@@ -100,7 +100,7 @@
 import {required, maxLength} from 'vuelidate/lib/validators'
 
 export default {
-  data() {
+  data () {
     return {
       medicamentos: {
         apresentacao: '',
