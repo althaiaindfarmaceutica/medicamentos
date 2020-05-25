@@ -97,7 +97,7 @@
 
 <script>
 
-import {required, minLength} from 'vuelidate/lib/validators'
+import {required, maxLength} from 'vuelidate/lib/validators'
 
 export default {
   data() {
@@ -115,18 +115,18 @@ validations: {
   medicamentos: {
     apresentacao: {
       required: required,
-      minLength: minLength(6)
+      maxLength: maxLength(200)
     },
     descricao: {
-     minLength: minLength(6)
+     maxLength: maxLength(500)
     },
     principio: {
       required: required,
-      minLength: minLength(6)
+      maxLength: maxLength(200)
     },
     empresa: {
       required:required,
-      minLength: minLength(6)
+      maxLength: maxLength(200)
     }
   }
 },
