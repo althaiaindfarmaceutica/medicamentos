@@ -17,8 +17,14 @@
 
           <h3 class="mt-2">Preencha abaixo</h3>
 
-          <form @submit.prevent="enviarForm" @reset="resetar">
+          <form @submit.prevent="enviarForm" @reset="resetar" method="post">
             
+              <div v-if="errors.length" class="alert alert-danger" role="alert" >
+                <b>Por favor, corrija o(s) seguinte(s) erro(s):</b> <br><br>
+                <ul>
+                  <li v-for="error in errors" v-bind:key="error.id">{{ error }}</li>
+                </ul>
+              </div>
            
             <div class="form-group">
               <label>Apresentação do medicamento</label>
@@ -26,8 +32,7 @@
                 class="form-control"
                 placeholder="Informe o medicamento"
                 v-model.trim="$v.medicamentos.apresentacao.$model"
-                :error-messages="apresentacaoErrors"
-                :success="!$v.medicamentos.apresentacao.$invalid">
+                >
             </div>
 
             <div class="form-group">
@@ -44,8 +49,7 @@
                 class="form-control"
                 placeholder="Informe o nome do princípio ativo"
                 v-model.lazy.trim="$v.medicamentos.principio.$model"
-                :error-messages="principioErrors" 
-                :success="!$v.medicamentos.principio.$invalid">
+                >
             </div>
 
             
@@ -57,17 +61,10 @@
               v-model.lazy.trim="$v.medicamentos.empresa.$model">
             </div>
 
-             <div class="form-group">
-              <label>Teste</label>
-              <input type="text"
-              class="form-control"
-              placeholder="teste"
-              v-model.lazy.trim="teste">
-            </div>
 
 
             <button class="btn btn-secondary" type="reset">Resetar</button>
-            <button class="btn btn-success" type="submit" >Enviar</button>
+            <button class="btn btn-success" type="submit" @click="checkForm">Enviar</button>
 
           </form>
 
@@ -115,14 +112,13 @@ export default {
   data () {
     return {
       medicamentos: {
-        apresentacao: '',
-        descricao: '',
-        principio: '',
-        empresa: '',
-      
+        apresentacao: null,
+        descricao: null,
+        principio: null,
+        empresa: null,
       },
 
-      teste: ''
+        errors: []  
     }
   },
 
@@ -155,27 +151,6 @@ if(localStorage.getItem('medicamentos')) {
 
 },
 
-computed: {
-  apresentacaoErrors () {
-    const errors = []
-    const apresentacao = this.$v.medicamentos.apresentacao
-    if(!apresentacao.$dirty) { return errors}
-    !apresentacao.required && errors.push('Este campo é obrigatório!')
-    return errors
-  
-  },
-
-  principioErrors () {
-    const errors = []
-    const principio = this.$v.medicamentos.principio
-    if(!principio.$dirty) { return errors}
-    !principio.required && errors.push('Este campo é obrigatório!')
-    return errors
-  
-  }
-  
-},
-
   methods: {
     enviarForm() {
 
@@ -190,12 +165,39 @@ computed: {
 
     log() {
       console.log('Vuelidate teste: ', this.$v)
-    }
-  },
+    },
+    checkForm() {
+        if(this.medicamentos.apresentacao && this.medicamentos.principio && this.medicamentos.empresa){
+          alert('Medicamento cadastrado com sucesso!')
+          return true;
+        }
+  
+        this.errors = [];
+  
+        if(!this.medicamentos.apresentacao) {
+          this.errors.push('O campo apresentação é obrigatório!');
+        }
+        
+        if(!this.medicamentos.principio) {
+          this.errors.push('O campo princípio ativo é obrigatório!');
+        }
+        
+        if(!this.medicamentos.empresa) {
+          this.errors.push('O campo empresa é obrigatório!');
+        }
+  
+      
+    },
 
   created() {
     this.resetar()
+  }
   },
+
+
+
+  
+
 
 }
 </script>
