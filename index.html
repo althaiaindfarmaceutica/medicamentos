@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <title> Althaia | Equaliv - Cadastro de Medicamentos</title>
+</head>
+<body style="background-color:#f0f7fb;">
+    <nav class="navbar navbar-expand-lg navbar-light container  background-color:#f0f7fb;">
+        <img class="navbar-brand"  src="https://scontent.faru1-1.fna.fbcdn.net/v/t31.0-8/255835_235934466423537_5074279_o.jpg?_nc_cat=107&_nc_sid=174925&_nc_eui2=AeHB2Soj75-HnibuP0l0TrqeXmOyXx6xBdxeY7JfHrEF3G_4aqqfQqJUxG_c0G_VIkexURu4QNIlKVujezwQGGSG&_nc_ohc=BJjRuwFbE3gAX8lBc65&_nc_ht=scontent.faru1-1.fna&oh=b2f99f20a318ccc77a93557ddc8b860a&oe=5EF589D9"  
+        height="70" width="70">
+        <img class="navbar-brand"  src="https://pbs.twimg.com/profile_images/1405072811/twt2__3__400x400.jpg" 
+        height="70" width="70">
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                </li>
+                <li class="nav-item">
+                </li>
+                <li class="nav-item">
+                </li>
+            </ul>
+            <span class="navbar-text">
+            <h1 style="color: #3A4C53;">Cadastro de Medicamentos</h1>
+          </span>
+        </div>
+    </nav>
+
+    <div id="app" class="container bg-white " style="border-radius: 20px;" > 
+
+        <div class="form-todo form-group">
+            <br>
+            <label style="color: #3A4C53;" for="">Apresentação do medicamento</label>
+            <input type="text" id="medicamento" class="form-control" placeholder="Escreva aqui o nome do remédio" v-model="medicamento" :maxlength="maxMedicamento"/> <div class="input-group-addon text-muted text-right" v-text="(maxMedicamento - medicamento.length)"></div>
+            <label style="color: #3A4C53;" for="">Descrição</label>
+            <textarea id="descricao" class="form-control" rows="5" v-model="descricao" placeholder="Descreva o medicamento" :maxlength="maxDescricao" v-bind:style="{resize: none}"></textarea><div class="input-group-addon text-muted text-right" v-text="(maxDescricao - descricao.length)"></div>
+            <label style="color: #3A4C53;" for="">Nome do princípio ativo</label>
+            <input type="text" class="form-control" id="principioAtivo" placeholder="Informe o princípio ativo" v-model="principioAtivo" :maxlength="maxPrincipioAtivo"><div class="input-group-addon text-muted text-right" v-text="(maxPrincipioAtivo - principioAtivo.length)"></div>
+            <label style="color: #3A4C53;" for="">Empresa</label>
+            <input type="text" class="form-control" id="empresa" placeholder="Informe a Empresa " v-model="empresa" :maxlength="maxEmpresa"><div class="input-group-addon text-muted text-right" v-text="(maxEmpresa - empresa.length)"></div>
+
+            <button @click="enviar()" class="btn btn-primary" type="submit" v-bind:disabled="!isValid">CADASTRAR</button>
+        </div>
+        <hr/>
+        <div class="list-group " style="border-radius: 20px;">
+            <div class="list-group-item" v-for="(cadastro, index) in cadastro">
+                <span class="cadastro__medicamento"><strong>Medicamento: </strong> </span><span class="text-uppercase" style="color:#051D40;">{{cadastro.medicamento}}</span></p>
+                <span class="cadastro__medicamento"><strong>Descrição: </strong> </span>{{cadastro.descricao}}</p>
+                <span class="cadastro__medicamento"><strong>Nome do princípio ativo: </strong> </span>{{cadastro.principioAtivo}}</p>
+                <span class="cadastro__medicamento"><strong>Empresa: </strong> </span>{{cadastro.empresa}}</p>
+                <div>
+                    <button href="#" title="Excluir" @click.prevent="excluir(index)" class="btn btn-danger" >EXCLUIR</button>
+
+                </div>
+            </div>
+        </div>
+        <hr/>
+    </div>
+
+    <script src="https://unpkg.com/vue"></script>
+
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data(){
+                return{
+                    cadastro:[
+                    ],
+                    medicamento: "",
+                    descricao:"",
+                    principioAtivo:"",
+                    empresa:"",
+                    maxMedicamento:200,
+                    maxDescricao:500,
+                    maxPrincipioAtivo:200,
+                    maxEmpresa:200,
+                }
+            },
+
+            computed: {
+            isValid: function () {
+                return this.medicamento != '' && this.principioAtivo != '' && this.empresa !=''
+            }
+            },
+            
+            methods: {
+                enviar() {
+                    if (this.medicamento.trim()==='' || this.principioAtivo.trim()==='' || this.empresa.trim()==='' ){
+                        alert('Não foi possível realizar o cadastro, verifique se preencheu todos os dados corretos.');
+                        return;
+                    }
+
+                    alert('Cadastrado com sucesso!');
+                    this.cadastro.push({
+                        medicamento: this.medicamento,
+                        descricao: this.descricao,
+                        principioAtivo: this.principioAtivo,
+                        empresa: this.empresa,
+                    })
+                    this.medicamento = '';
+                    this.descricao = '';
+                    this.principioAtivo = '';
+                    this.empresa = '';
+                },
+                excluir(index) {
+                    this.cadastro.splice(index, 1);
+                }
+            },
+            });
+    </script>
+</body>
+</html>
