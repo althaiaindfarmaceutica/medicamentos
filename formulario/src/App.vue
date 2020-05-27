@@ -1,10 +1,10 @@
 <template>
   <div id="app">
     
-    <div class="jumbotron jumbotron-fluid">
+    <div class="jumbotron jumbotron-fluid bg-dark">
       <div class="container">
-        <h1 class="display-4">Cadastro de medicamentos</h1>
-        <p class="lead">Formulário Althaia Farmacêutica</p>
+        <h1 class="display-4 text-light">Cadastro de medicamentos</h1>
+        <p class="lead text-light">Formulário Althaia Indústria Farmacêutica</p>
       </div>
     </div>
 
@@ -73,7 +73,7 @@
         <!-- saida -->
         <div class="col-sm-6 ">
 
-          <h3 class="mb-5">Saída</h3>
+          <h3 class="mt-2 mb-4">Saída</h3>
 
           <div class="card">
 
