@@ -17,7 +17,7 @@
 
           <h3 class="mt-2">Preencha abaixo</h3>
 
-          <form @submit.prevent="enviar" @reset="resetar">
+          <form @submit.prevent="enviarForm" @reset="resetar">
             
            
             <div class="form-group">
@@ -25,7 +25,9 @@
                <input type="text" 
                 class="form-control"
                 placeholder="Informe o medicamento"
-                v-model.lazy.trim="$v.medicamentos.apresentacao.$model" >
+                v-model.trim="$v.medicamentos.apresentacao.$model"
+                :error-messages="apresentacaoErrors"
+                :success="!$v.medicamentos.apresentacao.$invalid">
             </div>
 
             <div class="form-group">
@@ -41,7 +43,9 @@
                <input type="text" 
                 class="form-control"
                 placeholder="Informe o nome do princípio ativo"
-                v-model.lazy.trim="$v.medicamentos.principio.$model" >
+                v-model.lazy.trim="$v.medicamentos.principio.$model"
+                :error-messages="principioErrors" 
+                :success="!$v.medicamentos.principio.$invalid">
             </div>
 
             
@@ -53,9 +57,17 @@
               v-model.lazy.trim="$v.medicamentos.empresa.$model">
             </div>
 
+             <div class="form-group">
+              <label>Teste</label>
+              <input type="text"
+              class="form-control"
+              placeholder="teste"
+              v-model.lazy.trim="teste">
+            </div>
+
 
             <button class="btn btn-secondary" type="reset">Resetar</button>
-            <button class="btn btn-success" type="submit" @click="log" >Enviar</button>
+            <button class="btn btn-success" type="submit" >Enviar</button>
 
           </form>
 
@@ -97,7 +109,7 @@
 
 <script>
 
-import {required, maxLength} from 'vuelidate/lib/validators'
+import {required,  maxLength} from 'vuelidate/lib/validators'
 
 export default {
   data () {
@@ -106,8 +118,11 @@ export default {
         apresentacao: '',
         descricao: '',
         principio: '',
-        empresa: ''
-      }
+        empresa: '',
+      
+      },
+
+      teste: ''
     }
   },
 
@@ -118,37 +133,69 @@ validations: {
       maxLength: maxLength(200)
     },
     descricao: {
-     maxLength: maxLength(500)
+      maxLength: maxLength(500)
     },
     principio: {
       required: required,
       maxLength: maxLength(200)
     },
     empresa: {
-      required:required,
-      maxLength: maxLength(200)
+      required: required,
+      maxLength: maxLength(200),
+  
     }
   }
 },
 
+mounted(){
+
+if(localStorage.getItem('medicamentos')) {
+    this.medicamentos = JSON.parse(localStorage.getItem('medicamentos'));  
+}
+
+},
+
+computed: {
+  apresentacaoErrors () {
+    const errors = []
+    const apresentacao = this.$v.medicamentos.apresentacao
+    if(!apresentacao.$dirty) { return errors}
+    !apresentacao.required && errors.push('Este campo é obrigatório!')
+    return errors
+  
+  },
+
+  principioErrors () {
+    const errors = []
+    const principio = this.$v.medicamentos.principio
+    if(!principio.$dirty) { return errors}
+    !principio.required && errors.push('Este campo é obrigatório!')
+    return errors
+  
+  }
+  
+},
+
   methods: {
-    enviar() {
-      const formularioEnviado = Object.assign({}, this.medicamentos)
+    enviarForm() {
+
+      const formularioEnviado = JSON.stringify(this.medicamentos);
+      localStorage.setItem('medicamentos', formularioEnviado);
       console.log('formulário enviado!', formularioEnviado);
+      
     },
     resetar() {
       this.medicamentos = Object.assign({}, '')
     },
 
     log() {
-      console.log('Vuelidate: ', this.$v)
+      console.log('Vuelidate teste: ', this.$v)
     }
   },
 
   created() {
     this.resetar()
-  }
-
+  },
 
 }
 </script>
